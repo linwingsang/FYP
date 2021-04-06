@@ -1,0 +1,161 @@
+{% extends "index_base.html" %}
+{% block head_css %}
+        {{ super() }}
+        <link href="{{url_for('static',filename='css/custom.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+       <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+       <li data-target="#carousel-example-generic" data-slide-to="1" ></li>
+       <li data-target="#carousel-example-generic" data-slide-to="2" ></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3" ></li>
+    </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="jumbotron" style="background: url('static/img/bk2.jpg');background-size:100% 100%;background-repeat: no-repeat;">
+            <div class="container">
+            <!--<h1><i class="fa fa-cutlery"></i> 將軍澳</h1>-->
+            <h1><img src="{{url_for('static',filename='img/logo.png')}}"height="80"></i> 將軍澳</h1>
+            <h1></h1>
+            <!--<h1> 將軍澳</h1>-->
+            <p><a href="restaurantview/show/1"><img src="{{url_for('static',filename='img/location/tko/tko1.jpg')}}"width="20%" height="20%"></i></a>{{_("   Taipei Alley (台北巷弄) ")}}
+            <a href="restaurantview/show/2"><img src="{{url_for('static',filename='img/location/tko/tko2.jpg')}}"width="20%" height="20%"></i></a>{{_("  Mom's Dry Noodles (老媽拌麵) ")}}</p>
+            <p><img src="{{url_for('static',filename='img/location/tko/tko3.jpg')}}"width="20%" height="20%"></i>{{_("  Tai Cha Fan(大茶飯) ")}}
+            <img src="{{url_for('static',filename='img/location/tko/tko4.jpg')}}"width="20%" height="20%"></i>{{_("  Yung Kee (榕記車仔麵) ")}}</p>
+            <center>
+            <p><a class="btn btn-primary btn-lg" href="restaurantview/list/?_flt_0_location=TKO#accordion1_href"
+                 role="button">{{_("Order Now")}} <i class="fa fa-star"></i></a></p>
+            </center>
+            </div>
+           </div>
+        </div>
+
+        <div class="item">
+            <div class="jumbotron" style="background: url('static/img/slide4.jpg');background-size:100% 100%;background-repeat: no-repeat; " >
+            <div class="container">
+            <h1><img src="{{url_for('static',filename='img/logo.png')}}"height="80"></i> 筲箕灣</h1>
+                <p><a href="restaurantview/show/3"><img src="{{url_for('static',filename='img/location/skw/skw1.jpg')}}"width="18%" height="18%"></a>{{_("  Master Low-key Food Shop (低調高手大街小食)")}}
+                <img src="{{url_for('static',filename='img/location/skw/skw2.jpg')}}"width="18%" height="18%">{{_("  On Lee Noodle (安利魚蛋粉麵)")}}</p>
+                <p><img src="{{url_for('static',filename='img/location/skw/skw3.jpg')}}"width="18%" height="18%">{{_("  Grandpa Roast Goose Restaurant (阿爺燒鵝餐室)")}}
+                <img src="{{url_for('static',filename='img/location/skw/skw4.jpg')}}"width="18%" height="18%">{{_("  A One (阿一豬扒酸辣米綫)")}}</p>
+            <center>
+                <p><a class="btn btn-primary btn-lg" href="restaurantview/list/?_flt_0_location=SKW" role="button">{{_("Order Now")}} &raquo;</a></p>
+            </center>
+            </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div id="book">
+            <div class="jumbotron" style="background: url('static/img/bk3.jpg');background-size:100% 100%;background-repeat: no-repeat;">
+            <div class="container">
+            <h1><img src="{{url_for('static',filename='img/logo.png')}}"height="80"></i> 元朗</h>
+            <p><img src="{{url_for('static',filename='img/location/yl/yl1.jpg')}}"width="20%" height="20%"></i>{{_("Mint Thai House (薄荷葉泰國菜)")}}</p>
+            <p><a href="restaurantview/show/4"><img src="{{url_for('static',filename='img/location/yl/yl2.jpg')}}"width="20%" height="20%" ></i></a>{{_("Big Boil's Club (大滾友火鍋)")}}</p>
+            <center>
+            <p><a class="btn btn-primary btn-lg" href="restaurantview/list/?_flt_0_location=YL" role="button">{{_("Order Now")}} &raquo;</a></p>
+            </center>
+            </div>
+            </div></div>
+        </div>
+
+        <div class="item">
+            <div class="jumbotron" style="background: url('static/img/slide4.jpg');background-size:100% 100%;background-repeat: no-repeat;">
+            <div class="container">
+            <h1><img src="{{url_for('static',filename='img/logo.png' )}}" height="80" ></i> {{_(" 有片有真相 ")}}  </h1>
+            <p>{{_("Hope you will like it ")}} ~~  大滾友火鍋  ~~</p>
+            <center>
+            <p><a class="btn btn-primary btn-lg"  href="https://www.youtube.com/watch?v=MSAlKeF1ojQ" target="_blank" role="button">{{_("See Now  ")}}<i class="fa fa-play"></i></a></p>
+            </center>
+            </div>
+            </div>
+        </div>
+</div>
+
+    <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+
+</div>
+
+      <div class="row" style="background:url('static/img/old_moon.png'); color:black">
+          <div class="col-md-3 col-md-offset-1 col-xs-offset-1">
+          <h1><i class="fa fa-rebel fa-3x"></i></h1>
+        </div> 
+        <div class="col-md-7 col-md-offset-1 col-xs-offset-1">
+          <h2 class="featurette-heading">{{_("Check  ")}}<span class="text-muted">{{_(" order")}}</span><span class="featurette-heading">{{_(" 唔使急, 最緊要快 ")}}</span></h2>
+            <ul>
+          <li class="lead tight">{{_("Go Go Go , Don't wait any more !!!")}}</li>
+           <p><a class="btn btn-primary btn-warning" href="orderheadersview/list/"
+                 role="button">{{_("Check Now")}} <i class="fa fa-bolt"></i></a></p>
+       
+            </ul>
+        </div>
+       
+      </div>
+         <div class="row" style="background:url('static/img/food3.jpg') ; background-repeat:no-repeat ; background-size:100%;color:black">
+      <!--<div class="row" style="background:#ffeae4 ; color:black ">-->
+          <div class="col-md-3 col-md-offset-1 col-xs-offset-1 ">
+           <h1><i class="fa fa-cutlery fa-3x"></i></h1>
+          </div>
+           <div class="col-md-3 col-md-offset-1 col-xs-offset-1">
+             <h2 class="featurette-heading">{{_(" 天下第一排行榜 ")}}</h2>
+          <!--<h2 class="featurette-heading">{{_("Restaurant ")}}<span class="text-muted">{{_(" ranking table")}}</span></h2>-->
+        <ul>
+            <li class="lead tight">{{_("You can see what's your favour restaurant's position in table")}}</li>
+             <p><a class="btn btn-primary btn-warning" href="rankingview/list/?_oc_RankingView=rank&_od_RankingView=asc"
+                 role="button">{{_("See Now")}} <i class="fa fa-cutlery"></i></a></p>
+            
+        </ul>
+        </div>
+      </div>
+
+      <div class="row" style="background:url('static/img/old_moon.png')   ;color:black">
+          <div class="col-md-3  col-md-offset-1 col-xs-offset-1">
+          <h1><i class="fa fa-github-alt fa-3x"></i></h1>
+          </div>
+           <div class="col-md-7 col-md-offset-1 col-xs-offset-1">
+            <h2 class="featurette-heading">{{_("Order ")}}<span class="text-muted">{{_(" food")}}</span><span class="featurette-heading">{{_(" 伙記唔該 ")}}</span></h2>
+            
+          <ul>
+            <li class="lead tight">{{_("Where is your location.")}}</li>
+             <p><a class="btn btn-primary btn-warning" href="restaurantview/list/"
+                 role="button">{{_("Order Now")}} <i class="fa fa-lock"></i></a></p>
+            
+           
+          </ul>
+        </div>
+          
+       
+      </div>
+       
+       <div class="row" style="background:url('static/img/food.jpg') ; background-repeat:no-repeat ; background-size:100%;color:black">
+       <!--<div class="row" style="background:#ffeae4 ; color:black-->
+          <div class="col-md-3 col-md-offset-1 col-xs-offset-1">
+          <h1><i class="fa fa-pencil-square-o fa-3x"></i></h1>
+          </div>
+          <div class="col-md-7 col-md-offset-1 col-xs-offset-1">
+              <h2 class="featurette-heading">{{_(" 食評 ")}}</h2>
+        <!--    <h2 class="featurette-heading">{{_("Comment ")}}<span class="text-muted">{{_(" and more")}}</span></h2> -->
+          <ul>
+            <div class="comment">  
+            <li class="lead tight">{{_("今日Lunch去咗元朗一間特色火鍋店「大滾友」打邊爐,整體來講：食物質素係唔錯，用料講究，值得一試")}}</li>
+           
+            
+            <p><a class="btn btn-primary btn-warning" href="commentsview/list"
+                 role="button">{{_("Comment Now")}} <i class="fa fa-pencil-square-o"></i></a></p>
+            </div>
+          </ul>
+        </div>
+      </div>
+      
+
+{% endblock %}

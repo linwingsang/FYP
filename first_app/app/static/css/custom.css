@@ -1,0 +1,29 @@
+.tight {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.navbar-inverse {
+    background-color: crimson;
+    border-color: crimson;
+}
+
+.navbar-brand a{
+    color: #FFFFFF;
+   
+}
+
+.jumbotron {color: black;}
+.featurette-heading {color: red;}
+.text-small{color:yellow;}
+.text{color:black;}
+.leadtight {color: black;}
+.leadtight {color: black;}
+.comment {color: black;}
+
+.row{
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+}
+
+h1{size:100%;}

@@ -1,0 +1,9 @@
+#check requiements save as requirements.txt
+pip3 freeze > requirements.txt
+
+#reinstall requremnts.txt all software
+pip3 install -r requirements
+
+
+
+
