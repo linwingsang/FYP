@@ -1,0 +1,45 @@
+
+{% extends "index_base.html" %}
+{% block head_css %}
+        {{ super() }}
+        <link href="{{url_for('static',filename='css/custom.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<p style="font-size:30px"> <img src="{{url_for('static',filename='img/logo.png')}}"height="100"></i>天下第一排行榜 </p>
+
+<div>
+<table class="table table-striped">
+  <thead>
+<!--<table style="width:100%", style="text-align:center">-->
+  <tr>
+    <th>Rank</th>
+    <th>Restaurant Name</th>
+    <th>Total Order</th>
+  </tr></thead>
+ 
+    {% for results in result %}
+    <tbody>
+    <th scope="row"></th>
+    <tr>
+    <th>{{results.rank}}</th>
+    <th>{{results.Restaurant_name}}</th>
+    <th>{{results.total_order}}</th>
+    </tr>
+    {% endfor %}
+    </tbody></table>
+ </div>
+ <div>     
+      <li class="lead tight">{{_("Go Go Go , Don't wait any more !!!")}}</li>
+      <p><a class="btn btn-primary btn-warning" href="https://github.com/dpgaspar/Flask-AppBuilder"
+            role="button">{{_("Check Now")}} <i class="fa fa-star"></i></a></p>
+  </div>
+       
+      
+
+   
+   
+
+{% endblock %}
+
