@@ -27,3 +27,7 @@
 }
 
 h1{size:100%;}
+
+.background-img{
+background-image: url('../img/old_moon.png');
+}

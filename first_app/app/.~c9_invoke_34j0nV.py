@@ -106,6 +106,7 @@ class FoodtypeView(ModelView):
       edit_form_extra_fields = {'restaurant':  QuerySelectField("Restaurant",
                                 query_factory=restaurant_query,
                                 widget=Select2Widget(extra_classes="readonly"))} 
+                                
 
 class FoodoptionView(ModelView):
       datamodel = SQLAInterface(Foodoption)

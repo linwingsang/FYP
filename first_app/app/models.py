@@ -179,63 +179,63 @@ class Cuisine(Model):
 
 # #####################################################################################################################################################################
   
-class Payments(Model):
+class Pay(Model):
     id = Column(Integer, primary_key=True )
     total_amount = Column(Integer , nullable=True)
     status = Column(String(50),nullable=True)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
    
     def __repr__(self):
         return "%int-%int-%s" % (self.id,self.total_amount, self.status)   
     
-class Paymethods(Model):
+class Paysmethod(Model):
     id = Column(Integer,primary_key=True)
     method = Column(String(10), nullable=False)
     card_type = Column(String(10), nullable=True)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
     
     def __repr__(self):
         return "%s-%s" % (self.method, self.card_type)   
         
-class Coupons(Model):
+class Couponss(Model):
     id = Column(Integer,primary_key=True)
     coupons_type = Column(String(10), nullable=True)
     expire_date = Column(Date, nullable=True)
-    payments_id = Column(Integer, ForeignKey('payments.id'), nullable=False)
-    payments = relationship("Payments")
+    pay_id = Column(Integer, ForeignKey('pay.id'), nullable=False)
+    pay = relationship("Pay")
     
     def __repr__(self):
         return "%s-%datetime" % (self.coupons_type, self.expire_date)  
         
         
-class Commerces(Model):
+class Commercess(Model):
     id = Column(Integer,primary_key=True)
     income = Column(Integer, nullable = True)
     restaurant_id = Column(Integer,ForeignKey('restaurant.id'), nullable=False)
     restaurant = relationship("Restaurant")
-    payments_id = Column(Integer, ForeignKey('payments.id'), nullable=False)
-    payments = relationship("Payments")
+    pay_id = Column(Integer, ForeignKey('pay.id'), nullable=False)
+    pay = relationship("Pay")
     date = Column(String(30),default=now , nullable=True)
     
     
     def __repr__(self):
         return "%int-%s" % (self.income, self.date) 
         
-class Monthreport(Model):
+class Monthreports(Model):
     id = Column(Integer,primary_key=True)
-    commerce_id = Column(Integer,ForeignKey('commerces.id'), nullable=False)
-    commerce = relationship("Commerces")
+    commercess_id = Column(Integer,ForeignKey('commercess.id'), nullable=False)
+    commercess = relationship("Commercess")
     status = Column(String(20), nullable=False)
     
     def __repr__(self):
         return self.status
         
-class Yearreport(Model):
+class Yearreports(Model):
     id = Column(Integer,primary_key=True)
-    commerce_id = Column(Integer,ForeignKey('commerces.id'), nullable=False)
-    commerce = relationship("Commerces")
+    commercess_id = Column(Integer,ForeignKey('commercess.id'), nullable=False)
+    commercess = relationship("Commercess")
     status = Column(String(20), nullable=False)
     
     def __repr__(self):
@@ -245,53 +245,54 @@ class Yearreport(Model):
 # #################################################################################################################################################
 
         
-class Orderheaders(Model):
+class Orderedheader(Model):
     id = Column(Integer, primary_key=True )
     Username = Column(String(20),nullable=False)
     Location = Column(String(50), nullable=False)
-    Status = Column(String(20), nullable=False)
+    Status = Column(String(20), nullable=True)
+    Deliveryman = Column(String(20), nullable=True)
     order_date = Column(String(30),default=today ,nullable=False)  
     
     def __repr__(self):
         return "%s-%int-%s-%s" % (self.Username,self.id, self.Location, self.Status)
         
-class Orderslines(Model):
+class Orderedline(Model):
     id = Column(Integer, primary_key=True )
     item_name = Column(String(50), nullable=False)
-    description = Column(String(20), nullable=False)
+    description = Column(String(50), nullable=True)
     price = Column(Integer ,nullable=False)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
     restaurant_id = Column(Integer,ForeignKey('restaurant.id'), nullable=False)
     restaurant = relationship("Restaurant")
     
     def __repr__(self):
         return "%s-%s-%int" % (self.item_name, self.description, self.price)
         
-class Tip(Model):
+class Tipss(Model):
     id = Column(Integer, primary_key=True )
     tip_comment = Column(String(50), nullable=True)
     tip = Column(Integer ,nullable=True)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
   
     def __repr__(self):
         return self.tip
 
-class Orderhistorys(Model):
+class Orderhistoryss(Model):
     id = Column(Integer, primary_key=True )
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
    
      
    
-class Refunds(Model):
+class Refundss(Model):
     id = Column(Integer, primary_key=True )
     amount = Column(Integer , nullable=True)
     status = Column(String(50),nullable=True)
     refund_date = Column(String(30),default=today ,nullable=False)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
    
     def __repr__(self):
         return "%int-%s-%date" % (self.amount, self.status, self.refund_date)   
@@ -306,14 +307,14 @@ class Ranking(Model):
     def __repr__(self):
         return self.Restaurant_name
         
-class Orderspeca(Model):
+class Ordersspecial(Model):
     id = Column(Integer, primary_key=True )
     sweetlevel = Column(String(50), nullable=False)
     icelevel = Column(String(50), nullable=False)
     ricelevel = Column(String(50), nullable=False)
     drinkingstraw = Column(String(50), nullable=False)
-    orderheaders_id = Column(Integer, ForeignKey('orderheaders.id'), nullable=False)
-    orderheaders = relationship("Orderheaders")
+    orderedheader_id = Column(Integer, ForeignKey('orderedheader.id'), nullable=False)
+    orderedheader = relationship("Orderedheader")
   
     def __repr__(self):
         return "%s-%s-%s-%s" % (self.sweetlevel, self.icelevel, self.ricelevel, self.drinkingstraw)
@@ -359,13 +360,15 @@ class Cartheaders(Model):
     def __repr__(self):
         return "%s-%int-%s" % (self.username,self.id, self.Collectlocation)
         
-class Cartlines(Model):
+class Cartslines(Model):
     id = Column(Integer, primary_key=True )
     item_name = Column(String(50), nullable=False)
     description = Column(String(20), nullable=False)
     price = Column(Integer ,nullable=False)
     cartheaders_id = Column(Integer, ForeignKey('cartheaders.id'), nullable=False)
     cartheaders = relationship("Cartheaders")
+    restaurant_id = Column(Integer,ForeignKey('restaurant.id'), nullable=False)
+    restaurant = relationship("Restaurant")
     
     def __repr__(self):
         return "%s-%s-%int" % (self.item_name, self.description, self.price)
