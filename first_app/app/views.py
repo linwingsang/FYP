@@ -3,8 +3,9 @@ from flask_appbuilder.fieldwidgets import Select2Widget
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_appbuilder.baseviews import expose, BaseView
+from flask import Flask, request
 from . import appbuilder, db
-from .models import test,Deliveryman,Income,Vip,Live,Log,Comments,Profiles,Favorite,Ranking
+from .models import Deliveryman,Income,Vip,Live,Log,Comments,Profiles,Favorite,Ranking
 from .models import Orderedheader,Orderedline,Tipss, Orderhistoryss, Refundss, Ordersspecial
 from .models import Cartheaders,Cartslines,Specialneeds,Restaurant,Foodtype,Foodoption,Notices,Grade,Promotion,Events,Othervariety,Cuisine
 from .models import Pay, Paysmethod, Couponss, Commercess, Monthreports, Yearreports
@@ -224,7 +225,9 @@ def orderedheader_query():
     
 def pay_query():
     return db.session.query(Pay)    
-    
+
+
+
 class OrderedlineView(ModelView):
     datamodel = SQLAInterface(Orderedline)
     list_columns = ['id','orderedheader.id','restaurant.name', 'item_name','description','price']
@@ -234,6 +237,7 @@ class OrderedlineView(ModelView):
     edit_form_extra_fields = {'restaurant':  QuerySelectField("Restaurant",
                                 query_factory=restaurant_query,
                                 widget=Select2Widget(extra_classes="readonly"))}   
+    
         
 class TipssView(ModelView):
     datamodel = SQLAInterface(Tipss)
@@ -375,24 +379,116 @@ def comments_query():
 def foodtype_query():
     return db.session.query(Foodtype)
     
-def cartsline_add():
-    return db.session.add(Cartslines)
 
 
-class CartslineView(BaseView):
-    default_view = 'cartslineview'
-    @expose('/Cartslineview/<int:id>')
-    def add(self,id):
-        items = foodtype_query()
-        for item in items :
-            if item.id == id :
-                 item_name = item.item_name
-                 description = item.description
-                 price = item.price
-                 restaurant_id = item.restaurant_id
-        cartsline_add()   
+def cartsline_query():
+    return db.session.query(Cartslines)
+
+class CartslineaddView(BaseView):
+    default_view = 'cartslineaddview'
+    @expose('/add/',methods=["POST"])
+    
+    def cartslineaddview(self):
+        total_price = 0
+        itemid = request.form.get("id")
+        items = db.session.query(Foodtype).filter_by(id=itemid).all()
+        
+        for item in items :      
+            new = Cartslines(item_name=item.item_name, description='new', price=item.price, cartheaders_id=0, restaurant_id=item.restaurant_id )
+            db.session.add(new)
+            db.session.commit()
+            
+        food = foodtype_query()
+        result = cartsline_query()
         self.update_redirect()
-        return  self.render_template('cartadd.html')    
+        return  self.render_template('cartadd.html',result = result, itemid = itemid,food = food, items=items, total_price = total_price)    
+        
+
+class CartslinedelView(BaseView):
+    default_view = 'cartslinedelview'
+   
+    @expose('/delete/',methods=["POST"])
+    
+    def cartslinedelview(self):
+        
+        itemid = request.form.get("id")
+        items = db.session.query(Cartslines).filter_by(id=itemid).all()
+        for item in items :
+            item.description="delete"
+            db.session.commit()
+        food = foodtype_query()
+        result = cartsline_query()
+        self.update_redirect()
+        return  self.render_template('cartadd.html',result = result, itemid = itemid,food = food)    
+
+def orderedline_query():
+    return db.session.query(Orderedline)
+
+
+     
+class OrderedlineaddView(BaseView):
+    default_view = 'orderedlineaddview'
+    @expose('/add/',methods=["POST"])
+    
+    def orderedlineaddview(self):
+        total_price = 0
+        name = request.form.get("name")
+        location = request.form.get("location")
+        users = db.session.query(Vip).filter_by(name=name).all()
+        items = db.session.query(Cartslines).filter_by(description='new').all()
+        
+        
+        head = Orderedheader(Username=name,Location=location,Status='new',Deliveryman='')
+        db.session.add(head)
+        db.session.commit()
+        
+        headids = db.session.query(Orderedheader).filter_by(Status='new').all()
+        
+        for headid in headids :
+            hid=headid.id
+            
+        for item in items :      
+            new = Orderedline(item_name=item.item_name, description='ordered', price=item.price, orderedheader_id=hid, restaurant_id=item.restaurant_id )
+            db.session.add(new)
+            db.session.commit()
+            
+            item.description="ordered"
+            db.session.commit()
+        
+        user = vip_query()     
+        ohead = orderedheader_query()
+        result = orderedline_query()
+        self.update_redirect()
+        return  self.render_template('orderadd.html',result = result, total_price = total_price, name = name, user=user, ohead=ohead )
+  
+    
+    @expose('/show/',methods=["POST"])
+    
+    def show(self):
+        name = request.form.get("name")
+        user = vip_query()  
+        ohead = orderedheader_query()
+        result = orderedline_query()   
+        self.update_redirect()
+        return  self.render_template('orderadd.html',result = result, ohead=ohead, user=user, name=name)
+    
+        
+    @expose('/showold/',methods=["POST"])
+    
+    def showold(self):
+        name = request.form.get("name")
+        user = vip_query()  
+        ohead = orderedheader_query()
+        result = orderedline_query()   
+        self.update_redirect()
+        return  self.render_template('orderold.html',result = result, ohead=ohead, user=user, name=name)
+    
+    
+    
+    
+    
+    
+    
     
 class SkwView(BaseView):
     default_view = 'skwview'
@@ -456,6 +552,7 @@ class ShopView(BaseView):
         return  self.render_template('shop4.html',result = result, shopid = shopid, shop=shop)
 
 
+
 class RanktableView(BaseView):
     default_view = 'ranktableview'
     @expose('/ranktableview/')
@@ -506,6 +603,7 @@ appbuilder.add_view(CartheadersView,"Cart Header",icon = "fa-shopping-cart", cat
 appbuilder.add_view(CartslinesView,"Cart Line",icon = "fa-shopping-cart", category = "Cart")
 appbuilder.add_view(SpecialneedsView,"Special Arrange",icon = "fa-shopping-cart", category = "Cart")
 
+
 appbuilder.add_view(OrderedheaderView,"Order Header",icon = "fa-shopping-cart", category = "Order")
 appbuilder.add_view(OrderedlineView,"Order Line",icon = "fa-shopping-cart", category = "Order")
 appbuilder.add_view(OrdersspecialView,"Order Special Arrange",icon = "fa-shopping-cart", category = "Order")
@@ -523,6 +621,12 @@ appbuilder.add_view(YearreportsView,"Year Report",icon = "fa-shopping-cart", cat
 
 appbuilder.add_view(DeliverymanView,'Delivery Man', icon = "fa-address-card-o",category="DeliveryStaff")
 appbuilder.add_view(IncomeView,'Income', icon = "fa-address-card-o",category="DeliveryStaff")
+
+appbuilder.add_view(CartslinedelView,"Cart Line Del",icon = "fa-shopping-cart", category = "test")
+appbuilder.add_view(CartslineaddView,"Cart Line Add",icon = "fa-shopping-cart", category = "test")
+appbuilder.add_view(OrderedlineaddView,"Order Line Add",icon = "fa-shopping-cart", category = "test")
+appbuilder.add_link("Show", href="/orderedlineaddview/show/", category="test")
+appbuilder.add_link("Show Old", href="/orderedlineaddview/showold/", category="test")
 
 appbuilder.add_view(ShopView,'Shop view1', icon = "fa-address-card-o",category="test")
 appbuilder.add_link("Shop view2", href="/shopview/shopview2/", category="test")

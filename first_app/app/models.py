@@ -1,27 +1,22 @@
-import datetime
+import datetime, pytz
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Date, Text 
 from sqlalchemy.orm import relationship
 from flask_appbuilder import Model
 from flask_sqlalchemy import SQLAlchemy
 
-class test(Model):
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique = False, nullable=False)
-    address = Column(String(564))
-    Location = Column(String(30))
-    Telephone = Column(Integer)
-    Category = Column(String(30))
-    CollectPoint = Column(String(50))
 
-    def __repr__(self):
-        return self.name
 
 def today():
    return datetime.datetime.today().strftime("%Y-%m-%d %H:%M" )
-   
+ 
 def now():
-   return datetime.datetime.now().strftime("%Y-%m-%d" )   
+    utc_now = pytz.utc.localize(datetime.datetime.utcnow())
+    pst_now = utc_now.astimezone(pytz.timezone("Asia/Hong_Kong"))
+    return pst_now.strftime("%B %d, %Y %H:%M" )    
+   
+# def now():
+#   return datetime.datetime.now().strftime("%B %d, %Y %H:%M" )   
 
 ################################    REAL Table    ############################################################        
         
@@ -251,7 +246,7 @@ class Orderedheader(Model):
     Location = Column(String(50), nullable=False)
     Status = Column(String(20), nullable=True)
     Deliveryman = Column(String(20), nullable=True)
-    order_date = Column(String(30),default=today ,nullable=False)  
+    order_date = Column(String(30),default=now ,nullable=False)  
     
     def __repr__(self):
         return "%s-%int-%s-%s" % (self.Username,self.id, self.Location, self.Status)
