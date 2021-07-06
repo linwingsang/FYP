@@ -22,11 +22,13 @@
             <h1><img src="{{url_for('static',filename='img/logo.png')}}"height="80"></i> 將軍澳</h1>
             <h1></h1>
             <!--<h1> 將軍澳</h1>-->
+            
             <p><a href="shopview/shopview1/"><img src="{{url_for('static',filename='img/location/tko/tko1.jpg')}}"width="20%" height="20%"></i></a>{{_("   Taipei Alley (台北巷弄) ")}}
             <a href="shopview/shopview2/"><img src="{{url_for('static',filename='img/location/tko/tko2.jpg')}}"width="20%" height="20%"></i></a>{{_("  Mom's Dry Noodles (老媽拌麵) ")}}</p>
             <p><img src="{{url_for('static',filename='img/location/tko/tko3.jpg')}}"width="20%" height="20%"></i>{{_("  Tai Cha Fan(大茶飯) ")}}
             <img src="{{url_for('static',filename='img/location/tko/tko4.jpg')}}"width="20%" height="20%"></i>{{_("  Yung Kee (榕記車仔麵) ")}}</p>
             <center>
+            
             <p><a class="btn btn-primary btn-lg" href="tkoview/tkoview/"
                  role="button">{{_("Order Now")}} <i class="fa fa-star"></i></a></p>
             </center>
@@ -67,10 +69,12 @@
             <div class="jumbotron" style="background: url('static/img/slide4.jpg');background-size:100% 100%;background-repeat: no-repeat;">
             <div class="container">
             <h1><img src="{{url_for('static',filename='img/logo.png' )}}" height="80" ></i> {{_(" 有片有真相 ")}}  </h1>
-            <p>{{_("Hope you will like it ")}} ~~  大滾友火鍋  ~~</p>
-            <center>
-            <p><a class="btn btn-primary btn-lg"  href="https://www.youtube.com/watch?v=MSAlKeF1ojQ" target="_blank" role="button">{{_("See Now  ")}}<i class="fa fa-play"></i></a></p>
-            </center>
+            <p>{{_("Hope you will like it ")}} ~~  大滾友火鍋  ~~
+            <a class="btn btn-primary btn-lg"  href="https://www.youtube.com/watch?v=MSAlKeF1ojQ" target="_blank" role="button">{{_("See Now  ")}}<i class="fa fa-play"></i></a></p>
+            <p>     ~~  低調高手大街小食  ~~
+            <a class="btn btn-warning btn-lg"  href="https://www.youtube.com/watch?v=V1t2oEg1idE" target="_blank" role="button">{{_("See Now  ")}}<i class="fa fa-play"></i></a></p>
+            <p>     ~~  阿爺燒鵝餐室  ~~
+            <a class="btn btn-primary btn-lg"  href="https://www.youtube.com/watch?v=q0-Dnx7cFQ8" target="_blank" role="button">{{_("See Now  ")}}<i class="fa fa-play"></i></a></p>
             </div>
             </div>
         </div>
@@ -142,7 +146,7 @@
           <ul>
             <li class="lead tight">{{_("Where is your location.")}}</li>
             
-             <p><a class="btn btn-primary btn-warning" href="restaurantview/list/"
+             <p><a class="btn btn-primary btn-warning" href="tkoview/tkoview/"
                  role="button">{{_("Order Now")}} <i class="fa fa-lock"></i></a></p>
             
            
@@ -165,7 +169,7 @@
             <li class="lead tight">{{_("今日Lunch去咗元朗一間特色火鍋店「大滾友」打邊爐,整體來講：食物質素係唔錯，用料講究，值得一試")}}</li>
            
             
-            <p><a class="btn btn-primary btn-warning" href="commentview/commentview/"
+            <p><a class="btn btn-primary btn-warning" href="commentview/commentview/show/"
                  role="button">{{_("See Now")}} <i class="fa fa-pencil-square-o"></i></a></p>
             </div>
           </ul>

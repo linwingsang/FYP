@@ -8,7 +8,7 @@
 <div>
 <h1><p style="font-size:50px;margin-left:10px"> <img src="{{url_for('static',filename='img/logo.png')}}"height="100"></i> Order Detail
 <img src="{{url_for('static',filename='img/orderadd/hotpot.jpg')}}" width="13%" height="13%" style="float:right;margin-right:120px"></i>
-<img src="{{url_for('static',filename='img/orderadd/f2.jpg')}}" width="11.5%" height="11.5%" style="float:right;margin-right:10px"></i>
+<img src="{{url_for('static',filename='img/orderadd/crab2.jpg')}}" width="13%" height="13%" style="float:right;margin-right:10px"></i>
 </p></h1>
 <h1 style="margin-left:40px"> Client name : {{name}} </h1>
 
@@ -32,7 +32,7 @@
 </tr></thead>
 {% for results in result %}
     {% if results.orderedheader.Username == name %}
-        {% if results.orderedheader.Status != "complete" %}
+        {% if results.orderedheader.Status != "completed" %}
             <tbody style="background-color:white;color:black;border:3px solid #c8c8c8;padding:10px;margin-bottom:40px">
             <th scope="row"></th>
             <tr>
@@ -52,6 +52,7 @@
     {% endif %}
 {% endfor %}
 </table>
+<!--<h1>New order total price is HK $ {{total_price}}</h1>-->
 
             
 <div>
@@ -59,7 +60,7 @@
 <a class="btn btn-primary  btn-lg btn-success" href='/'
     role="button">{{_("Keep Shopping")}} <i class="fa fa-star"></i></a>
 
-<a class="btn btn-primary  btn-lg btn-warning" href='/commentsview/list/'
+<a class="btn btn-primary  btn-lg btn-warning" href='/commentview/commentview/show/'
     role="button">{{_("Contact Us")}} <i class="fa fa-star"></i></a></h3>
 </div>
 

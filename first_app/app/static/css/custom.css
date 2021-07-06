@@ -13,7 +13,9 @@
    
 }
 
-.jumbotron {color: black;}
+.jumbotron {color: black;
+    
+}
 .featurette-heading {color: red;}
 .text-small{color:yellow;}
 .text{color:black;}
@@ -30,4 +32,13 @@ h1{size:100%;}
 
 .background-img{
 background-image: url('../img/old_moon.png');
+}
+
+
+
+.polaroid {
+  width: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
 }

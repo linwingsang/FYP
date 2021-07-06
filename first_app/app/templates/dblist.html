@@ -1,0 +1,101 @@
+{% extends "index_base.html" %}
+{% block head_css %}
+        {{ super() }}
+        <link href="{{url_for('static',filename='css/custom.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1><p style="font-size:50px;margin-left:10px"> <img src="{{url_for('static',filename='img/logo.png')}}"height="100"></i> Delivery Order </p></h1>
+<div class="text">
+    <h3 style="margin-left:40px">Staff Name : {{sname}} </h3>
+</div>
+
+<div>
+    <h3 style="margin-left:40px">New Order Table</h3>
+    <id="tableorderadd">  
+        <table style="width:90%;text-align:center;font-size:20px;border:3px solid black;padding:10px;margin-left:40px">
+        <thead style="background-color:#add8e6;color:black;border:3px solid #c8c8c8;padding:10px;margin-bottom:40px">
+        <tr>
+        <th>Order header ID</th>    
+        <th>ID</th>
+        <th>Item Name</th>
+        <th>Price ($HK)</th>
+        <th>Restaurant</th>
+        <th>Total Price ($HK)</th>
+        <th>Collect Point</th>
+        <th>Date</h1>
+        <th>Action</th>
+        </tr></thead>
+        
+        {% for results in result %}
+                {% if results.orderedheader.Status == "new" %}
+                    <tbody style="background-color:white;color:black;border:3px solid #c8c8c8;padding:10px;margin-bottom:40px">
+                    <th scope="row"></th>
+                    <tr>
+                    <th>{{results.orderedheader.id}}</th>    
+                    <th>{{results.id}}</th>
+                    <th>{{results.item_name}}</th>
+                    <th>{{results.price}} </th>
+                    <th>{{results.restaurant.name}}</th>
+                    <th>{{results.price}} </th>
+                    <th>{{results.orderedheader.Location}}</th>
+                    <th>{{results.orderedheader.order_date}}</th>
+                    
+                    <form action="/dbview/process/" method = "POST">
+                        <th>
+                        <input type="hidden" name="sname" value={{sname}} > 
+                        <button type = "submit" class="btn btn-primary btn-warning" name="id" value={{results.orderedheader.id}} 
+                                 role="button">{{_("Process Now")}} <i class="fa fa-star"></i>
+                        </th></form>
+                    
+                    </tr>
+                    </tbody>
+                {% endif %}
+            
+        {% endfor %}
+        </table>
+</div>
+
+<div>
+    <h3 style="margin-left:40px">Processing Order Table</h3>
+    <id="tableorderprocess">  
+        <table style="width:90%;text-align:center;font-size:20px;border:3px solid black;padding:10px;margin-left:40px">
+        <thead style="background-color:#add8e6;color:black;border:3px solid #c8c8c8;padding:10px;margin-bottom:40px">
+        <tr>
+        <th>Order header ID</th>    
+        <th>Client Name</th>
+        <th>Collect Location</th>
+        <th>Status</th>
+        <th>Order Date</h1>
+        <th>Action</th>
+        </tr></thead>
+    
+     {% for oheads in ohead %}
+        {% if oheads.Deliveryman == sname  %}
+            {% if oheads.Status == "process"  %}
+               <tbody style="background-color:white;color:black;border:3px solid #c8c8c8;padding:10px;margin-bottom:40px">
+                    <th scope="row"></th>
+                    <tr>
+                    <th>{{oheads.id}}</th>    
+                    <th>{{oheads.Username}}</th>
+                    <th>{{oheads.Location}}</th>
+                    <th>{{oheads.Status}} </th>
+                    <th>{{oheads.order_date}}</th>
+                    
+                    <form action="/dbview/completed/" method = "POST">
+                        <th>
+                        <input type="hidden" name="sname" value={{sname}} > 
+                        <button type = "submit" class="btn btn-primary btn-success" name="id" value={{oheads.id}} 
+                                 role="button">{{_("Completed")}} <i class="fa fa-star"></i>
+                        </th></form>
+                    
+                    </tr>
+                    </tbody>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>    
+
+
+
+{% endblock %}

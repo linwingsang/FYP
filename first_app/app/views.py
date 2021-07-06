@@ -434,33 +434,42 @@ class OrderedlineaddView(BaseView):
         total_price = 0
         name = request.form.get("name")
         location = request.form.get("location")
-        users = db.session.query(Vip).filter_by(name=name).all()
-        items = db.session.query(Cartslines).filter_by(description='new').all()
+        clients = vip_query()
         
+        for client in clients :
+            if  client.name == name :
         
-        head = Orderedheader(Username=name,Location=location,Status='new',Deliveryman='')
-        db.session.add(head)
-        db.session.commit()
-        
-        headids = db.session.query(Orderedheader).filter_by(Status='new').all()
-        
-        for headid in headids :
-            hid=headid.id
-            
-        for item in items :      
-            new = Orderedline(item_name=item.item_name, description='ordered', price=item.price, orderedheader_id=hid, restaurant_id=item.restaurant_id )
-            db.session.add(new)
-            db.session.commit()
-            
-            item.description="ordered"
-            db.session.commit()
-        
-        user = vip_query()     
-        ohead = orderedheader_query()
-        result = orderedline_query()
-        self.update_redirect()
-        return  self.render_template('orderadd.html',result = result, total_price = total_price, name = name, user=user, ohead=ohead )
-  
+                users = db.session.query(Vip).filter_by(name=name).all()
+                items = db.session.query(Cartslines).filter_by(description='new').all()
+                
+                
+                head = Orderedheader(Username=name,Location=location,Status='new',Deliveryman='')
+                db.session.add(head)
+                db.session.commit()
+                
+                headids = db.session.query(Orderedheader).filter_by(Status='new').all()
+                
+                for headid in headids :
+                    hid=headid.id
+                    
+                for item in items :  
+                    total_price = total_price + item.price
+                    new = Orderedline(item_name=item.item_name, description='ordered', price=item.price, orderedheader_id=hid, restaurant_id=item.restaurant_id )
+                    db.session.add(new)
+                    db.session.commit()
+                    
+                    item.description="ordered"
+                    db.session.commit()
+                
+                user = vip_query()     
+                ohead = orderedheader_query()
+                result = orderedline_query()
+                self.update_redirect()
+                return  self.render_template('orderadd.html',result = result, total_price = total_price, name = name, user=user, ohead=ohead )
+                
+            self.update_redirect()
+            return  self.render_template('error.html')     
+          
     
     @expose('/show/',methods=["POST"])
     
@@ -561,17 +570,103 @@ class RanktableView(BaseView):
         self.update_redirect()
         return  self.render_template('ranking.html',result = result)
 
+
+
 class CommentView(BaseView):
     default_view = 'commentview'
-    @expose('/commentview/')
+    
+    @expose('/commentview/show/')
     def commentview(self):
         result = comments_query()
         self.update_redirect()
         return  self.render_template('comment.html',result = result)
 
-
-
-
+    @expose('/add/',methods=["POST"])
+    def commentaddview(self):
+        name = request.form.get("name")
+        comment = request.form.get("comment")
+        clients = vip_query()
+        
+        for client in clients :
+            if  client.name == name :
+                vipid=client.id
+                new = Comments(vip_id=vipid, text=comment )
+                db.session.add(new)
+                db.session.commit() 
+                result = comments_query()
+                self.update_redirect()
+                return  self.render_template('comment.html',result = result)
+                
+        self.update_redirect()
+        return  self.render_template('error.html')        
+                
+ 
+ 
+class dbView(BaseView):
+    default_view = 'dbview'
+    
+    @expose('/dbview/show/')
+    def dbview(self):
+        ohead = orderedheader_query()
+        result = orderedline_query()   
+        self.update_redirect()
+        return  self.render_template('db.html',result = result, ohead=ohead)
+     
+                
+    @expose('/list/',methods=["POST"])
+    def dblistview(self):
+        sname = request.form.get("sname")
+        clients = vip_query()
+        
+         
+        for client in clients :
+            if  client.name == sname :
+                    ohead = orderedheader_query()
+                    result = orderedline_query()
+                    self.update_redirect()
+                    return  self.render_template('dblist.html',result = result, ohead=ohead, sname=sname)
+                
+        self.update_redirect()
+        return  self.render_template('error.html')  
+        
+        
+    @expose('/process/',methods=["POST"])
+    
+    def dbprocessview(self):
+        sname = request.form.get("sname")
+        itemid = request.form.get("id")
+        ohead = orderedheader_query()
+        result = orderedline_query()
+        
+        items = db.session.query(Orderedheader).filter_by(id=itemid).all()
+        for item in items :
+            item.Status="process"
+            item.Deliveryman=sname
+            db.session.commit()
+            ohead = orderedheader_query()
+            result = orderedline_query()
+            self.update_redirect()
+            return  self.render_template('dblist.html',result = result, ohead=ohead, sname=sname)  
+    
+        
+    @expose('/completed/',methods=["POST"])
+    
+    def dbcompletedview(self):
+        sname = request.form.get("sname")
+        itemid = request.form.get("id")
+        ohead = orderedheader_query()
+        result = orderedline_query()
+        
+        items = db.session.query(Orderedheader).filter_by(id=itemid).all()
+        for item in items :
+            item.Status="completed"
+            db.session.commit()
+            ohead = orderedheader_query()
+            result = orderedline_query()
+            self.update_redirect()
+            return  self.render_template('dblist.html',result = result, ohead=ohead, sname=sname)  
+          
+        
 
 db.create_all()
 
@@ -621,6 +716,9 @@ appbuilder.add_view(YearreportsView,"Year Report",icon = "fa-shopping-cart", cat
 
 appbuilder.add_view(DeliverymanView,'Delivery Man', icon = "fa-address-card-o",category="DeliveryStaff")
 appbuilder.add_view(IncomeView,'Income', icon = "fa-address-card-o",category="DeliveryStaff")
+appbuilder.add_view(dbView,'Delivery Order', icon = "fa-address-card-o",category="DeliveryStaff")
+appbuilder.add_link("list", href="/dbview/list/", icon = "fa-address-card-o",category="DeliveryStaff")
+
 
 appbuilder.add_view(CartslinedelView,"Cart Line Del",icon = "fa-shopping-cart", category = "test")
 appbuilder.add_view(CartslineaddView,"Cart Line Add",icon = "fa-shopping-cart", category = "test")
@@ -637,3 +735,4 @@ appbuilder.add_view(TkoView,'TKO view', icon = "fa-address-card-o",category="tes
 appbuilder.add_view(SkwView,'SKW view', icon = "fa-address-card-o",category="test")
 appbuilder.add_view(RanktableView,"Ranking View",icon = "fa-address-card-o",category = "test")
 appbuilder.add_view(CommentView,"Comment View",icon = "fa-address-card-o",category = "test")
+appbuilder.add_link("Add", href="/commentview/add/", category="test")
